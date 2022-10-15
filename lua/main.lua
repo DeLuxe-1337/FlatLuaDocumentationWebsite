@@ -1,37 +1,111 @@
 local flat = require "lua.flat.require"
 flat.page.load_dom("flat-dom") -- loads the custom dom from render/index.html
 
-flat.component.new("alert", function()
-    local div = flat.element.create("div", "This is my alert!")
+local leftnav = flat.element.create("div", nil)
 
-    flat.styler.new("alert", {
-        border = "0.375rem",
+flat.styler.new("leftnav", {
+    overflow_x = "hidden",
+    position = "fixed",
+    width = "10%",
+    height = "100%",
+    background_color = "rgb(45, 45, 45)",
+    border = "none",
+    text_align = "center"
+})
+
+leftnav:render()
+
+flat.styler.use("leftnav", leftnav)
+
+local pages = {}
+
+flat.component.new("docpage", function()
+    local page_div = flat.element.create("div", nil)
+
+    flat.styler.new("page", {
         position = "relative",
-        padding = "1rem 1rem",
-        margin_bottom = "10px",
-        margin_top = "10px",
-        color = "#842029",
-        margin_left = "10px",
-        background_color = "#f8d7da",
-        border_radius = "0.375rem",
-        border_left_width = "10px",
-        border_left_style = "solid",
-        width = "fit-content"
+        color = "rgb(255, 255, 255)",
+        width = "80%",
+        display = "inline-block",
+        text_align = "center",
+        user_select = "none",
+        margin_left = "11%"
+    })
+
+    page_div:render()
+
+    flat.styler.use("page", page_div)
+
+    table.insert(pages, page_div)
+
+    return {
+        get = page_div
+    }
+end)
+
+function removeAllPages()
+    for i, v in pairs(pages) do
+        v:remove()
+        table.remove(pages, i)
+    end
+end
+
+flat.component.new("nav_option", function()
+    local div = flat.element.create("div", "This is a nav option!")
+
+    flat.styler.new("navopt", {
+        position = "relative",
+        color = "rgb(255, 255, 255)",
+        width = "100%",
+        display = "inline-block",
+        user_select = "none",
+        margin_bottom = "1%"
     })
 
     div:render()
+    leftnav:render_child(div)
 
-    flat.styler.use("alert", div)
+    flat.styler.use("navopt", div)
 
     return {
-        text = function(update)
+        bind = function(update, fn)
             div.innerHTML = update
+
+            div:event("click", function()
+                removeAllPages()
+                local page = flat.component.create("docpage")
+                fn(page.get)
+            end)
         end
     }
 end)
 
-local alert1 = flat.component.create("alert")
-alert1.text("You've been warned!")
+local doc_components = {
+    text = function(size, text, div, center)
+        center = center or false
 
-local alert2 = flat.component.create("alert")
-alert2.text("This is my second warning to you.")
+        local text = flat.element.create(size, text)
+        text:render()
+        div:render_child(text)
+
+        if center then
+            text.style = "display: inline-block;"
+        end
+    end
+}
+
+flat.component.create("nav_option").bind("Components", function(div)
+    doc_components.text("h1", "- Components -", div, true)
+
+    doc_components.text("h2",
+        "You can create components using: flat.component.new(name: string, component_content: function);", div)
+    doc_components.text("h2", "You can use components by using: flat.component.create(name: string);", div)
+end)
+
+flat.component.create("nav_option").bind("Styler", function(div)
+    doc_components.text("h1", "- Styler -", div, true)
+
+    doc_components.text("h2",
+        "You can create styles using: flat.styler.new(name: string, style_properties: table);", div)
+    doc_components.text("h2", "You can use styles by using: flat.styler.use(name: string, element: element);", div)
+end)

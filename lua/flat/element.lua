@@ -18,15 +18,9 @@ function module.create(kinda, innera, props)
             flat_kind = kinda,
             innerHTML = innera
         },
-        build = function(self)
-            return "<" .. self.properties.flat_kind .. " id='" .. get_id(self.render_index or (#page.current_page_html + 1)) .. "'" .. ">" .. "</" ..
-                       self.properties.flat_kind .. ">"
-        end,
-        render = function(self, build)
-            build = build or self:build()
-
+        render = function(self)
             if not self.render_index then
-                self.render_index = page.render(build)
+                self.render_index = page.render(self)
             end
 
             self:postrender(self.render_index)
@@ -44,6 +38,17 @@ function module.create(kinda, innera, props)
             end
 
             page.current_page_html[self.render_index] = elm.outerHTML
+        end,
+        render_child = function(self, child)
+            child = get_element(child.id)
+            local elm = get_element(get_id(self.render_index))
+            elm:appendChild(child)
+        end,
+        remove = function(self)
+            local elm = get_element(get_id(self.render_index))
+            elm:remove()
+
+            table.remove(page.current_page_html, self.render_index)
         end,
         event = function(self, ev, fn)
             local elm = get_element(get_id(self.render_index))
@@ -70,7 +75,6 @@ function module.create(kinda, innera, props)
                 rawset(table.properties, index, value)
 
                 if table.render_index then
-                    page.current_page_html[table.render_index] = table:build()
                     table:render()
                 end
             else

@@ -1,6 +1,7 @@
 local module = {}
 
 module.styles = {}
+module.applied = {}
 
 function module.new(name, params, theme)
     module.styles[name] = params
@@ -13,6 +14,8 @@ function module.use(name, element)
             element.style[i:gsub("_", "-")] = v
         end
     end
+
+    module.applied[element] = name
 end
 
 return module

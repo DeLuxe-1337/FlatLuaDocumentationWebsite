@@ -5,22 +5,15 @@ local module = {}
 module.current_page_html = {}
 module.dom = nil
 
-function GetHtml()
-    local build = ""
-
-    for i, v in pairs(module.current_page_html) do
-        build = build .. v .. "\n"
-    end
-
-    return build
-end
-
 function module.render(element)
     if element then
-        table.insert(module.current_page_html, element)
-    end
+        local node = js.global.document:createElement(element.properties.flat_kind)
+        module.dom:appendChild(node)
 
-    module.dom.innerHTML = GetHtml()
+        table.insert(module.current_page_html, element)
+
+        node.id = "flat_" .. #module.current_page_html
+    end
 
     return #module.current_page_html
 end
