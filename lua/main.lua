@@ -28,7 +28,6 @@ flat.component.new("docpage", function()
         width = "80%",
         display = "inline-block",
         text_align = "center",
-        user_select = "none",
         margin_left = "11%"
     })
 
