@@ -48,7 +48,7 @@ function module.text(size, text, center)
     center = center or false
 
     local text = flat.element.create(size, text)
-    text:render()
+
     module.div:render_child(text)
 
     if center then
@@ -75,7 +75,6 @@ function module.code(code, highlightt)
         display = "inline-block"
     })
 
-    c:render()
     module.div:render_child(c)
 
     flat.styler.use("code-doc", c)
@@ -101,7 +100,6 @@ function module.link(text, url)
         display = "inline-block"
     })
 
-    c:render()
     module.div:render_child(c)
 
     flat.styler.use("link-doc", c)
@@ -116,7 +114,6 @@ function module.newline()
         display = "inline-block"
     })
 
-    c:render()
     module.div:render_child(c)
 
     flat.styler.use("newline", c)
