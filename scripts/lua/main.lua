@@ -19,6 +19,7 @@ local my_highlight = {
     ["end"] = highlight_theme.light_red,
     ["function"] = "orange",
     ["!element"] = "#ddf21d",
+    ["element:"] = "#ddf21d",
     ["table"] = "#dd1df2",
     ["any"] = "#605cdb",
     ["optional"] = "#00ebd7"
@@ -27,34 +28,34 @@ local my_highlight = {
 flat.component.create("nav_option").bind("Components", function(div)
     doc.text("h1", "- Components -", div, true)
 
-    doc.text("h2", "You can create components using:", div)
+    doc.text("h2", "You can create components:", div)
     doc.code("flat.component.new(name: string, component_content: function);", my_highlight, div)
 
-    doc.text("h2", "You can use components by using:", div)
+    doc.text("h2", "You can use components you created:", div)
     doc.code("flat.component.create(name: string);", my_highlight, div)
 end)
 
 flat.component.create("nav_option").bind("Styler", function(div)
     doc.text("h1", "- Styler -", div, true)
 
-    doc.text("h2", "You can create styles using:", div)
+    doc.text("h2", "You can create styles to use later:", div)
     doc.code("flat.styler.new(name: string, style_properties: table);", my_highlight, div)
 
-    doc.text("h2", "You can use styles by using:", div)
+    doc.text("h2", "You can apply styles:", div)
     doc.code("flat.styler.use(name: string, elm: !element);", my_highlight, div)
 end)
 
 flat.component.create("nav_option").bind("Events", function(div)
     doc.text("h1", "- Events -", div, true)
 
-    doc.text("h2", "You can use events like:", div)
-    doc.code("button:event('click', function() print'Button clicked' end)", my_highlight, div)
+    doc.text("h2", "You can create events:", div)
+    doc.code("element:event(event: string, on_event: function)", my_highlight, div)
 end)
 
 flat.component.create("nav_option").bind("Elements", function(div)
     doc.text("h1", "- Elements -", div, true)
 
-    doc.text("h2", "element.create", div)
+    doc.text("h2", "You can create elements:", div)
     doc.code("flat.element.create(element_type: string, inner_html: any, starting_properties: table or optional)",
         my_highlight, div)
 end)
