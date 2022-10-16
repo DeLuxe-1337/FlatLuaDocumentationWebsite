@@ -31,7 +31,7 @@ doc.new_page("Getting started", function()
     doc.text("h4", "Run the following commands to get the project setup")
     doc.code("git clone https://github.com/DeLuxe-1337/flat.lua", {
         ["git "] = highlight_theme.func_name,
-        ["clone"] = highlight_theme.light_red
+        ["clone"] = highlight_theme.light_red,
     })
 
     doc.newline()

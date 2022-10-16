@@ -95,7 +95,7 @@ function module.link(text, url)
         padding = "1rem 1rem",
         margin_bottom = "10px",
         margin_top = "10px",
-        color = "#dbdbdb",
+        color = "#0377fc",
         margin_left = "10px",
         width = "fit-content",
         display = "inline-block"
