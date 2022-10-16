@@ -14,7 +14,7 @@
     }
 
     function executeFile(path) {
-        fetch("lua/" + path)
+        fetch("scripts/lua/" + path)
         .then(Response => Response.text())
         .then(text => executeScript(text))
     }
