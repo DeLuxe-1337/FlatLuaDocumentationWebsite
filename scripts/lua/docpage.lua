@@ -35,12 +35,21 @@ function module.destroy_pages()
     end
 end
 
-function module.text(size, text, div, center)
+module.div = nil
+
+function module.new_page(name, func)
+    flat.component.create("nav_option").bind(name, function(div)
+        module.div = div
+        func()
+    end)
+end
+
+function module.text(size, text, center)
     center = center or false
 
     local text = flat.element.create(size, text)
     text:render()
-    div:render_child(text)
+    module.div:render_child(text)
 
     if center then
         text.style = "display: inline-block; user-select: none;"
@@ -49,7 +58,7 @@ function module.text(size, text, div, center)
     end
 end
 
-function module.code(code, highlightt, div)
+function module.code(code, highlightt)
     local c = flat.element.create("div", code)
 
     flat.styler.new("code-doc", {
@@ -67,7 +76,7 @@ function module.code(code, highlightt, div)
     })
 
     c:render()
-    div:render_child(c)
+    module.div:render_child(c)
 
     flat.styler.use("code-doc", c)
 
@@ -78,7 +87,7 @@ function module.code(code, highlightt, div)
     c.innerHTML = code
 end
 
-function module.link(text, url, div)
+function module.link(text, url)
     local c = flat.element.create("a", text, {href = url})
 
     flat.styler.new("link-doc", {
@@ -93,9 +102,24 @@ function module.link(text, url, div)
     })
 
     c:render()
-    div:render_child(c)
+    module.div:render_child(c)
 
     flat.styler.use("link-doc", c)
+end
+
+function module.newline()
+    local c = flat.element.create("div", nil)
+
+    flat.styler.new("newline", {
+        position = "relative",
+        width = "100%",
+        display = "inline-block"
+    })
+
+    c:render()
+    module.div:render_child(c)
+
+    flat.styler.use("newline", c)
 end
 
 return module

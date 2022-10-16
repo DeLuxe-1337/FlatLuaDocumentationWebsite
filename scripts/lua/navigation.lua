@@ -9,7 +9,7 @@ function module.create_navigation()
     flat.styler.new("leftnav", {
         overflow_x = "hidden",
         position = "fixed",
-        width = "10%",
+        width = "20%",
         height = "100%",
         background_color = "rgb(45, 45, 45)",
         border = "none",
